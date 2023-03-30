@@ -1,0 +1,3 @@
+releases:
+  - name: httpbin
+    chart: ./httpbin
