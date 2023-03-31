@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: httpbin
+  name: {{ .Release.Name }}
   labels:
-    app: httpbin
+    app: {{ .Release.Name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   template:
     metadata:
-      name: httpbin
+      name: {{ .Release.Name }}
       labels:
-        app: httpbin
+        app: {{ .Release.Name }}
     spec:
       containers:
-        - name: httpbin
-          image: kennethreitz/httpbin
-          imagePullPolicy: IfNotPresent
+        - name: {{ .Release.Name }}
+          image: {{ .Values.image.repository }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
       restartPolicy: Always
   selector:
     matchLabels:
-      app: httpbin
+      app: {{ .Release.Name }}

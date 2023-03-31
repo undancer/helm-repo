@@ -1,3 +1,6 @@
 releases:
   - name: httpbin
     chart: ./httpbin
+    # set:
+    #   - name: ingress.enabled
+    #     value: false
