@@ -40,6 +40,8 @@ releases:
         value: LoadBalancer
       - name: gateway.tls.enabled
         value: true
+      # - name: gateway.ingress.enabled
+      #   value: true
 
   - name: cert-manager
     namespace: cert-manager
@@ -79,3 +81,5 @@ releases:
     set:
       - name: ingress.enabled
         value: true
+      - name: ingress.className
+        value: apisix
