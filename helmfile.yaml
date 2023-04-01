@@ -1,6 +1,81 @@
+repositories:
+  # - name: stable
+  #   url: https://charts.helm.sh/stable
+  - name: apisix
+    url: https://charts.apiseven.com
+  - name: jetstack
+    url: https://charts.jetstack.io
+  # - name: rancher-stable
+  #   url: https://releases.rancher.com/server-charts/stable
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
+
+# bases:
+# - environments.yaml
+# environments:
+#   development:
+#   production:
+# environments:
+#   stage:
+#     values:
+#     - env/stage.yaml
+#   prod:
+#     values:
+#     - env/prod.yaml
+
 releases:
+  - name: apisix
+    namespace: apisix
+    chart: apisix/apisix
+    set:
+      - name: dashboard.enabled
+        value: true
+      - name: ingress-controller.enabled
+        value: true
+      - name: ingress-controller.config.apisix.serviceNamespace
+        value: apisix
+      - name: gateway.type
+        value: LoadBalancer
+      - name: gateway.tls.enabled
+        value: true
+
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    version: v1.11.0
+    set:
+      - name: installCRDs
+        value: true
+
+  # - name: rancher
+  #   namespace: cattle-system
+  #   chart: rancher-stable/rancher
+  #   set:
+  #     - name: ingress.enabled
+  #       value: false
+  #     - name: replicas
+  #       value: 1
+
+  - name: prometheus
+    namespace: prometheus-system
+    chart: prometheus-community/prometheus
+    # set:
+    #   - name:
+    #     value:
+
+  - name: grafana
+    namespace: grafana-system
+    chart: grafana/grafana
+    set:
+      - name: persistence.enabled
+        value: true
+      - name: imageRenderer.enabled
+        value: true
+
   - name: httpbin
     chart: ./httpbin
-    # set:
-    #   - name: ingress.enabled
-    #     value: false
+    set:
+      - name: ingress.enabled
+        value: true
